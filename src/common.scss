@@ -1,0 +1,19 @@
+.ellipsisText {
+  width: 100%;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fullHeight {
+  height: 100%;
+}
+
+.overflowHidden {
+  overflow: hidden;
+}
+
+.alignRight {
+  text-align: right;
+}

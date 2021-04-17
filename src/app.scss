@@ -1,0 +1,78 @@
+@import "~taro-ui/dist/style/index.scss";
+@import "./common.scss";
+
+.at-float-layout__container {
+  border-radius: 18rpx 18rpx 0 0;
+}
+
+.at-action-sheet__container {
+  border-radius: 18rpx 18rpx 0 0;
+}
+
+.alignLeft {
+  text-align: left;
+}
+
+.alignCenter {
+  text-align: center;
+}
+
+.alignRight {
+  text-align: right;
+}
+
+.panel {
+  position: relative;
+  margin-bottom: 10rpx;
+  color: #6a6a77;
+  font-size: 0.68267rem;
+  font-weight: 700;
+  line-height: 1.5;
+
+  .panelTitle {
+    position: relative;
+    padding: 16rpx 10rpx 16rpx 36rpx;
+    color: #6a6a77;
+    font-size: 30rpx;
+    font-weight: 600;
+    line-height: 1.5;
+
+    &:before {
+      content: "";
+      display: inline-block;
+      position: absolute;
+      left: 20rpx;
+      top: 50%;
+      margin-top: -14rpx;
+      width: 6rpx;
+      height: 0.85333rem;
+      background-color: #6a6a77;
+      box-shadow: 0 0.14933rem 0.256rem 0 #6a6a7733;
+      border-radius: 1px;
+    }
+
+    .panelTitleExtra {
+      font-weight: normal;
+      font-size: 30rpx;
+    }
+  }
+
+  .panelBody {
+    padding: 16rpx 10rpx 16rpx 16rpx;
+  }
+}
+
+.at-tag {
+  border: 1rpx solid #efefee;
+  background-color: #efefee;
+  color: #333;
+  margin-left: 25rpx;
+  margin-bottom: 20rpx;
+}
+
+.at-tag--active {
+  $border: 1rpx solid #2ac179 !global;
+  border: $border;
+  background: #fff;
+  color: #2ac179;
+}

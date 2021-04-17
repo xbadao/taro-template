@@ -1,0 +1,41 @@
+{
+    "cSpell.words": [
+        "ANPJF",
+        "Browserslist",
+        "Datas",
+        "Devtools",
+        "FHSBZ",
+        "HAFGY",
+        "INGWK",
+        "LPTRS",
+        "Noticebar",
+        "Presale",
+        "adcode",
+        "containor",
+        "dayjs",
+        "echarts",
+        "jssdk",
+        "lzms",
+        "nerv",
+        "nervjs",
+        "onkeyboardheightchange",
+        "polyfill",
+        "pxtransform",
+        "qqmap",
+        "regexes",
+        "scrollbar",
+        "seckill",
+        "stylelint",
+        "stylesheet",
+        "swiper",
+        "tarojs",
+        "uglifyjs",
+        "weapp",
+        "wxapp"
+    ],
+    "javascript.implicitProjectConfig.experimentalDecorators": true,
+    "emmet.excludeLanguages": [
+        "markdown"
+    ],
+    "editor.formatOnSave": true
+}
