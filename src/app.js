@@ -2,7 +2,7 @@ import "@tarojs/async-await";
 import Taro from "@tarojs/taro";
 import { Provider } from "@tarojs/redux";
 
-import CustomPageCommon from "./customComponents/CustomPage/CustomPageCommon";
+import CustomPageCore from "./customComponents/CustomPage/CustomPageCore";
 
 import "./utils/request";
 import Home from "./pages/home";
@@ -37,12 +37,15 @@ const dvaApp = dva.createApp({
 
 const store = dvaApp.getStore();
 
-class App extends CustomPageCommon {
+class App extends CustomPageCore {
   config = {
     pages: [
       "pages/home/index",
+      "pages/news/index",
+      "pages/signIn/index",
+      "pages/register/index",
+      "pages/customer/index"
     ],
-
     preloadRule: {
       "pages/home/index": {
         network: "all",
@@ -52,7 +55,7 @@ class App extends CustomPageCommon {
     window: {
       backgroundTextStyle: "dark",
       navigationBarBackgroundColor: "#fff",
-      navigationBarTitleText: "template ",
+      navigationBarTitleText: "三易云农 ",
       navigationBarTextStyle: "black"
     },
     permission: {
@@ -62,7 +65,7 @@ class App extends CustomPageCommon {
     },
     tabBar: {
       color: "#353535",
-      selectedColor: "#34CC67",
+      selectedColor: "#C43F2E",
       borderStyle: "black",
       list: [
         {
@@ -75,22 +78,22 @@ class App extends CustomPageCommon {
           pagePath: "pages/news/index",
           iconPath: "./assets/tab-bar/cate.png",
           selectedIconPath: "./assets/tab-bar/cate-active.png",
-          text: "咨询"
-        },
-        {
-          pagePath: "pages/cart/index",
-          iconPath: "./assets/tab-bar/cart.png",
-          selectedIconPath: "./assets/tab-bar/cart-active.png",
-          text: "购物车"
+          text: "资讯"
         },
         {
           pagePath: "pages/customer/index",
           iconPath: "./assets/tab-bar/user.png",
           selectedIconPath: "./assets/tab-bar/user-active.png",
-          text: "商家"
+          text: "我的"
         }
       ]
     }
+    // networkTimeout: {
+    //   request: 1000000,
+    //   connectSocket: 100000,
+    //   uploadFile: 100000,
+    //   downloadFile: 100000
+    // }
   };
 
   componentWillMount() {
@@ -110,7 +113,74 @@ class App extends CustomPageCommon {
    * @memberof App
    */
   async componentDidMount() {
+    const { dispatch } = store;
 
+    setNeedAdPopUp(true);
+
+    dispatch({
+      type: "global/get",
+      payload: { force: false }
+    });
+
+    // 获取参数
+    const params = this.$router.params;
+    const path = params.path;
+    const query = params.query;
+    const scene = params.scene;
+
+    this.checkPath(path, query, scene);
+
+    const cityPre = getCity();
+
+    if ((query || null) != null) {
+      const { city: cityValue } = query;
+
+      if ((cityValue || "") !== "") {
+        const locationMode = getLocationMode();
+
+        if (cityPre === cityValue) {
+          if (locationMode === locationModeCollection.auto) {
+            // this.reLocation(null, false, false, true, dispatch);
+          } else {
+            setLocationMode(locationModeCollection.custom);
+          }
+        } else {
+          setCity(cityValue);
+
+          setLocationMode(locationModeCollection.custom);
+
+          // dispatch({
+          //   type: "global/getArea",
+          //   payload: {}
+          // });
+        }
+      } else {
+        setLocationMode(locationModeCollection.auto);
+        // this.reLocation(null, false, false, true, dispatch);
+      }
+    } else {
+      setLocationMode(locationModeCollection.auto);
+      // this.reLocation(null, false, false, true, dispatch);
+    }
+
+    const referrerInfo = params.referrerInfo;
+
+    !globalData.extraData && (globalData.extraData = {});
+    if (referrerInfo && referrerInfo.extraData) {
+      globalData.extraData = referrerInfo.extraData;
+    }
+    if (query) {
+      globalData.extraData = {
+        ...globalData.extraData,
+        ...query
+      };
+    }
+
+    // 获取设备信息
+    const sys = await Taro.getSystemInfo();
+    sys && (globalData.systemInfo = sys);
+
+    this.checkUpdateVersion();
   }
 
   componentDidShow() {
@@ -159,6 +229,21 @@ class App extends CustomPageCommon {
         content:
           "当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试。"
       });
+    }
+  }
+
+  checkPath(path, query, scene) {
+    const { dispatch } = store;
+
+    dispatch({
+      type: "global/setGlobalQuery",
+      payload: { path: path, query: query, scene: scene }
+    });
+
+    const { inviter } = query;
+
+    if ((inviter || "") !== "") {
+      setInviter(inviter);
     }
   }
 

@@ -64,6 +64,42 @@ class Index extends CustomBase {
     }
   }
 
+  // 编译
+  showInfo(message, duration = 3000) {
+    this.showMessage(message, "info", duration);
+  }
+
+  showError(message, duration = 3000) {
+    this.showMessage(message, "error", duration);
+  }
+
+  showSuccess(message, duration = 3000) {
+    this.showMessage(message, "success", duration);
+  }
+
+  showWarn(message, duration = 3000) {
+    this.showMessage(message, "warning", duration);
+  }
+
+  showMessage(message, type, duration = 3000) {
+    Taro.atMessage({
+      message: message,
+      type: type,
+      duration
+    });
+  }
+
+
+  checkHasMore(pageNo, pageSize, total) {
+    if ((total || 0) <= 0) {
+      return false;
+    }
+
+    return (pageNo || 0) * (pageSize || 0) < (total || 0);
+  }
+
+  // 编译
+
   /**
    * 当城市信息发生变化时重新加载页面
    */
@@ -708,8 +744,6 @@ class Index extends CustomBase {
             setToken(token);
             setOpenId(openId);
             setNeedSyncInfo(needSyncInfo);
-
-            this.setCurrentUserId(userId);
 
             recordLog(
               "signInCore sessionEffective this.setCheckSignInProcessing"

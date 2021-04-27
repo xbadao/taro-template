@@ -18,8 +18,7 @@
   .whiteBackground {
     position: relative;
     z-index: 2;
-    margin-top: -172rpx;
-    background: #fff;
+    background: #f5f5f5;
 
     .note {
       width: 80%;
@@ -43,7 +42,7 @@
   .rankBoxContainor {
     position: relative;
     min-height: 170rpx;
-    padding: 25rpx 10rpx 20rpx;
+    padding: 15rpx 10rpx 10rpx;
 
     .rankBox {
       padding: 2rpx 0 0rpx 0;
@@ -348,8 +347,8 @@
 
 .recommendation {
   // padding: 30rpx 80rpx 30rpx;
-  padding: 10rpx 25rpx;
-  background: #fff;
+  padding: 20rpx 25rpx;
+  background: #f5f5f5;
   .hot {
     width: 38rpx;
     height: 38rpx;
@@ -368,14 +367,14 @@
 .saleCommodityBox {
   padding: 0 17rpx;
   box-sizing: border-box;
-  background: #fff;
 
   .saleBox {
-    width: 50%;
-    float: left;
+    // width: 50%;
+    // float: left;
     // box-sizing: content-box;
     box-sizing: border-box;
     overflow: hidden;
+    background: #fff;
   }
 }
 
@@ -400,7 +399,7 @@
 }
 
 .moreBox {
-  background: #fff;
+  background: #f5f5f5;
 }
 
 .at-tabs-pane {
