@@ -1,0 +1,146 @@
+@import "~taro-ui/dist/style/components/flex.scss";
+.backgroundImg {
+  color: #fff;
+  // background-image: linear-gradient(to bottom right, #ff2492, #ff641f);
+}
+
+.main {
+  width: 100%;
+
+  .nav {
+    font-size: 34rpx;
+    position: fixed;
+    z-index: 1001;
+    width: 100%;
+    // height: 120rpx;
+    // background-image: url("http://file.panduolakeji.com/640523415.png");
+    // background: #34cc67;
+    background: #c43f2e;
+    // background-repeat: no-repeat;
+    // background-size: 100% 100%;
+  }
+  .columnDown {
+    .merchantBox {
+      width: 100%;
+      height: 65rpx;
+      box-sizing: border-box;
+      font-weight: 600;
+      // background-image: url("http://file.panduolakeji.com/74aed3cf-bc37-471f-b687-747d40f1141e.jpg");
+      // background-repeat: no-repeat;
+      // background-size: 750rpx 65rpx;
+
+      .boxFrame {
+        height: 65rpx;
+        padding: 0 22rpx;
+
+        .titleBox {
+          .left {
+            .leftTop {
+              width: 45rpx;
+              .icon {
+                width: 35rpx;
+              }
+            }
+
+            .title {
+              padding-left: 12rpx;
+              font-size: 28rpx;
+              color: #fff;
+              overflow: hidden;
+              white-space: nowrap;
+              text-overflow: ellipsis;
+            }
+          }
+        }
+
+        .changeMerchantActionBox {
+          .switch {
+            // padding: 0 15rpx 0 0rpx;
+            width: 45rpx;
+            padding-left: 8rpx;
+
+            .iconBox {
+              width: 20rpx;
+              height: 15rpx;
+            }
+          }
+
+          .text {
+            padding: 0 10rpx 0 5rpx;
+            font-size: 28rpx;
+            color: #fff;
+          }
+        }
+      }
+    }
+  }
+}
+
+.topTwo {
+  // background-image: url("http://file.panduolakeji.com/1202775052.png");
+  // background-image: url("http://file.panduolakeji.com/1111624492.png");
+  // background-repeat: no-repeat;
+  // background-size: 100% 100%;
+  padding: 0 24rpx;
+  background: #f5f5f5;
+  position: relative;
+  z-index: 1;
+
+  .address {
+    .left {
+      .selection {
+        width: 45rpx;
+
+        .addressIcon {
+          width: 45rpx;
+        }
+      }
+
+      .addressTitle {
+        padding: 0rpx 10rpx 0rpx 10rpx;
+        font-size: 30rpx;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+
+      .autoLocation {
+        color: #fff;
+      }
+    }
+  }
+
+  .box {
+    border-radius: 16rpx;
+    overflow: hidden;
+    padding: 30rpx 20rpx 30rpx 0rpx;
+    box-sizing: border-box;
+
+    .searchFrame {
+      height: 100%;
+      box-sizing: border-box;
+      overflow: hidden;
+      position: relative;
+      padding: 10rpx 20rpx 10rpx 20rpx;
+      background: #fff;
+      border-radius: 40rpx;
+
+      .searchIcon {
+        padding: 0 15rpx;
+      }
+
+      .search {
+        width: 27rpx;
+      }
+      .searchText {
+        font-size: 28rpx;
+        color: #999999;
+      }
+    }
+  }
+
+  .reLocationBox {
+    font-size: 32rpx;
+    color: #333;
+  }
+}

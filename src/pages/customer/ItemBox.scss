@@ -1,0 +1,32 @@
+@import "~taro-ui/dist/style/components/flex.scss";
+@import "../../common.scss";
+
+.actionBox {
+  background-color: #fff;
+  border-radius: 20rpx;
+  padding: 0 0 15rpx;
+
+  .imageContainor {
+    padding: 12rpx 0;
+    box-sizing: content-box;
+
+    .imageContainorInner {
+      width: 50rpx;
+      height: 50rpx;
+    }
+    .imageContainorInnerIcon {
+      width: 50rpx;
+      height: 50rpx;
+    }
+  }
+
+  .textBox {
+    height: 30rpx;
+
+    .text {
+      padding-top: 2rpx;
+      font-size: 26rpx;
+      color: #333333;
+    }
+  }
+}

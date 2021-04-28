@@ -1,0 +1,13 @@
+.fade_view_containor {
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+}
+
+.fade_view_show {
+  opacity: 1;
+}
+
+.fade_view_hide {
+  opacity: 0;
+}

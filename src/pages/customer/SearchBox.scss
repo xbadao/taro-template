@@ -1,0 +1,155 @@
+@import "~taro-ui/dist/style/components/flex.scss";
+
+.main {
+  // width: 100%;
+  background: #fff;
+  border-radius: 20rpx;
+  font-size: 28rpx;
+  box-sizing: border-box;
+  padding-top: 15rpx;
+  overflow: hidden;
+
+  .mainRow {
+    box-sizing: border-box;
+  }
+
+  .merchants {
+    padding: 0rpx 20rpx 0 5rpx;
+    box-sizing: content-box;
+    width: 122rpx;
+    height: 122rpx;
+
+    .merchantsIcon {
+      width: 122rpx;
+      height: 122rpx;
+    }
+  }
+
+  .merchantBox {
+    width: 100%;
+
+    .titleBox {
+      .left {
+        box-sizing: border-box;
+        color: #343434;
+        font-size: 26rpx;
+
+        .title {
+          color: #6c6c6c;
+          overflow: hidden;
+          white-space: normal;
+          word-break: break-all;
+        }
+      }
+    }
+
+    .changeMerchantActionBox {
+      padding: 0rpx;
+
+      .iconBox {
+        padding: 30rpx 0rpx 25rpx 15rpx;
+        width: 10rpx;
+        height: 18rpx;
+      }
+
+      .text {
+        font-size: 26rpx;
+        color: #343434;
+      }
+    }
+  }
+
+  .wordChants {
+    height: 100%;
+    padding-left: 10rpx;
+  }
+
+  .merchantPhone {
+    color: #343434;
+    font-size: 24rpx;
+
+    .realName {
+      font-size: 30rpx;
+      color: #000;
+      font-weight: 600;
+      padding: 0 5rpx 0 0rpx;
+    }
+
+    .text {
+      padding: 0 15rpx;
+      color: #fe5935;
+    }
+
+    .iconBox {
+      padding: 25rpx 0rpx;
+      width: 30rpx;
+    }
+  }
+
+  .address {
+    .left {
+      .addressIcon {
+        width: 33rpx;
+        padding: 0 15rpx 0 10rpx;
+      }
+
+      .addressTitle {
+        padding: 0rpx 10rpx 0rpx 10rpx;
+        font-size: 32rpx;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+
+      .autoLocation {
+        color: #ff4851;
+      }
+    }
+  }
+
+  .box {
+    border-radius: 16rpx;
+    overflow: hidden;
+    padding: 0 20rpx 0 0rpx;
+
+    .searchFrame {
+      height: 100%;
+      box-sizing: border-box;
+      overflow: hidden;
+      margin: 10rpx 0;
+      position: relative;
+      padding: 9rpx 20rpx 10rpx 20rpx;
+      background: #fff;
+      border-radius: 40rpx;
+
+      .searchIcon {
+        padding: 3rpx 15rpx 0rpx 15rpx;
+      }
+
+      .search {
+        width: 27rpx;
+      }
+      .searchText {
+        font-size: 28rpx;
+        color: #9a9a9a;
+      }
+    }
+  }
+
+  .reLocationBox {
+    height: 80rpx;
+    padding: 0rpx 10rpx 0rpx 0rpx;
+
+    .iconBox {
+      padding: 25rpx 15rpx 25rpx 0rpx;
+      width: 30rpx;
+    }
+
+    .text {
+      font-size: 28rpx;
+      height: 80rpx;
+      line-height: 80rpx;
+      color: #ff4851;
+    }
+  }
+}

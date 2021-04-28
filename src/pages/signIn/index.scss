@@ -1,0 +1,26 @@
+.mainContainor {
+  .logo_box {
+    padding: 20rpx;
+    width: 60rpx;
+  }
+
+  .title {
+    text-align: center;
+    font-size: 48rpx;
+  }
+
+  .mailbox {
+    color: #333;
+    font-size: 32rpx;
+    line-height: 1.5;
+    padding: 24rpx 0;
+    margin-bottom: 1px;
+  }
+
+  .register {
+    text-align: center;
+    font-size: 28rpx;
+    padding-top: 25rpx;
+    text-decoration: underline;
+  }
+}

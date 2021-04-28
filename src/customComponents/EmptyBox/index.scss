@@ -1,0 +1,20 @@
+@import "~taro-ui/dist/style/components/flex.scss";
+
+.emptyBoxContainor {
+  padding: 20rpx 0rpx;
+
+  .emptyBoxContainorInner {
+    .imageContainor {
+      width: 300rpx;
+    }
+
+    .messageBox {
+      font-size: 30rpx;
+      height: 34rpx;
+      line-height: 34rpx;
+      padding: 10rpx;
+      text-align: center;
+      color: #999;
+    }
+  }
+}
