@@ -58,9 +58,10 @@ export async function listRankBoxData(data) {
 
 export async function listRandomData(data) {
   if (useVirtualAccess()) {
+    console.log("AAAAAAAAAAAAA");
     const result = await apiVirtualSuccessAccess(
       {
-        list: []
+        date: []
       },
       false
     );
@@ -69,10 +70,12 @@ export async function listRandomData(data) {
   }
 
   return request.PostJson(
-    `/${apiVersion.version}/productBusiness/home/listRandom`,
+    `/${apiVersion.version}/productBusiness/product/pageList`,
     data
   );
 }
+
+
 
 /**
  * 占位函数

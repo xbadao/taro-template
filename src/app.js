@@ -12,17 +12,10 @@ import "./app.scss";
 
 import {
   setInviter,
-  setCity,
-  getCity,
-  getLocationMode,
-  setLocationMode,
   getSessionIdRefreshing,
   removeRunTime,
-  setNeedAdPopUp,
   setSessionIdRefreshing
 } from "./utils/tools";
-import { globalData } from "./utils/common";
-import { locationModeCollection } from "./utils/customConfig";
 
 // 如果需要在 h5 环境中开启 React Devtools
 // 取消以下注释：
@@ -113,74 +106,7 @@ class App extends CustomPageCore {
    * @memberof App
    */
   async componentDidMount() {
-    const { dispatch } = store;
 
-    setNeedAdPopUp(true);
-
-    dispatch({
-      type: "global/get",
-      payload: { force: false }
-    });
-
-    // 获取参数
-    const params = this.$router.params;
-    const path = params.path;
-    const query = params.query;
-    const scene = params.scene;
-
-    this.checkPath(path, query, scene);
-
-    const cityPre = getCity();
-
-    if ((query || null) != null) {
-      const { city: cityValue } = query;
-
-      if ((cityValue || "") !== "") {
-        const locationMode = getLocationMode();
-
-        if (cityPre === cityValue) {
-          if (locationMode === locationModeCollection.auto) {
-            // this.reLocation(null, false, false, true, dispatch);
-          } else {
-            setLocationMode(locationModeCollection.custom);
-          }
-        } else {
-          setCity(cityValue);
-
-          setLocationMode(locationModeCollection.custom);
-
-          // dispatch({
-          //   type: "global/getArea",
-          //   payload: {}
-          // });
-        }
-      } else {
-        setLocationMode(locationModeCollection.auto);
-        // this.reLocation(null, false, false, true, dispatch);
-      }
-    } else {
-      setLocationMode(locationModeCollection.auto);
-      // this.reLocation(null, false, false, true, dispatch);
-    }
-
-    const referrerInfo = params.referrerInfo;
-
-    !globalData.extraData && (globalData.extraData = {});
-    if (referrerInfo && referrerInfo.extraData) {
-      globalData.extraData = referrerInfo.extraData;
-    }
-    if (query) {
-      globalData.extraData = {
-        ...globalData.extraData,
-        ...query
-      };
-    }
-
-    // 获取设备信息
-    const sys = await Taro.getSystemInfo();
-    sys && (globalData.systemInfo = sys);
-
-    this.checkUpdateVersion();
   }
 
   componentDidShow() {
@@ -229,21 +155,6 @@ class App extends CustomPageCore {
         content:
           "当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试。"
       });
-    }
-  }
-
-  checkPath(path, query, scene) {
-    const { dispatch } = store;
-
-    dispatch({
-      type: "global/setGlobalQuery",
-      payload: { path: path, query: query, scene: scene }
-    });
-
-    const { inviter } = query;
-
-    if ((inviter || "") !== "") {
-      setInviter(inviter);
     }
   }
 

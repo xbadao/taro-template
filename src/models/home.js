@@ -1,4 +1,4 @@
-import { handleListDataAssist, handleCommonDataAssist } from "../utils/tools";
+import { handlePageListDataAssist, handleListDataAssist, handleCommonDataAssist } from "../utils/tools";
 
 import {
   getMainData,
@@ -39,9 +39,8 @@ export default {
     *listRandom({ payload }, { call, put }) {
       const response = yield call(listRandomData, payload);
       yield put({
-        type: "handleListData",
-        payload: response,
-        alias: "listRandomData"
+        type: "handlePageListData",
+        payload: response
       });
     },
     *listTop({ payload }, { call, put }) {
@@ -55,6 +54,9 @@ export default {
   },
 
   reducers: {
+    handlePageListData(state, action) {
+      return handlePageListDataAssist(state, action);
+    },
     handleListData(state, action) {
       return handleListDataAssist(state, action);
     },

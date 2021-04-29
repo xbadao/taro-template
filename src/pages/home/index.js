@@ -263,11 +263,11 @@ class Index extends CustomPageCore {
     submitData = this.supplementLoadRequestParams(submitData);
 
     dispatch({
-      type: "product/pageList",
+      type: "home/listRandom",
       payload: submitData
     }).then(() => {
       const {
-        product: { data }
+        home: { data }
       } = this.props;
 
       const { dataSuccess } = data;
