@@ -31,7 +31,6 @@ import {
 } from "../../../utils/customConfig";
 
 class Index extends CustomBase {
-  lastLoadParams = null;
 
   requestingData = { type: "", payload: {} };
 
@@ -594,7 +593,6 @@ class Index extends CustomBase {
 
   signInCore(params, callback) {
     const { dispatch } = this.props;
-    const cityPre = getCity();
 
     Tips.loading("处理中");
 
@@ -615,11 +613,9 @@ class Index extends CustomBase {
           token,
           openId,
           city,
-          userId,
           signInResult,
           sessionEffective,
           needSyncInfo,
-          areaOpen,
         } = metaData;
 
         if (typeof sessionEffective === "boolean") {

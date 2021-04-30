@@ -48,8 +48,6 @@ class Index extends CustomPageCore {
 
     const { windowHeight } = info;
 
-    this.showCityChangeTipsInfo = true;
-
     this.state = {
       ...this.state,
       ...{

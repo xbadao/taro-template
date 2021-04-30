@@ -3,8 +3,6 @@ import Taro from "@tarojs/taro";
 import {
   defaultCoreState,
   isFunction,
-  getCity,
-  getMap,
 } from "../../utils/tools";
 import CustomComponentBase from "../CustomComponentBase";
 
@@ -12,44 +10,12 @@ class CustomBase extends CustomComponentBase {
 
   ifCheckLogin = true;
 
-  lastLoadParams = null;
-
   needAuthorize = false;
-
-  currentMapCityCode = "";
-
-  currentCity = "";
-
-  showCityChangeTipsInfo = false;
-
-  showCityChangeTipsInfoAutoText = "即将切换城市";
-
-  showCityChangeTipsInfoCustomText = "城市发生变化，即将刷新";
-
-  showCityChangeTopInfo = false;
-
-  showCityChangeTopInfoAutoText = "已经切换为您所在的城市";
-
-  showCityChangeTopInfoCustomText = "已切换为目标城市";
 
   constructor(props) {
     super(props);
 
     const coreState = defaultCoreState();
-    const map = getMap();
-
-    let mapCityCode = "";
-
-    if (map != null) {
-      const {
-        ad_info: { adcode: cityCode }
-      } = map;
-
-      mapCityCode = `${cityCode || ""}`;
-    }
-
-    this.currentMapCityCode = mapCityCode;
-    this.currentCity = `${getCity()}`;
 
     this.state = {
       ...this.state,
@@ -198,11 +164,6 @@ class CustomBase extends CustomComponentBase {
   }
 
   setCurrentInfo() { }
-
-
-  setCurrentCity(city) {
-    this.currentCity = `${city || ""}`;
-  }
 
   // eslint-disable-next-line no-unused-vars
 

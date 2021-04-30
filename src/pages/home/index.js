@@ -108,9 +108,6 @@ class Index extends CustomPageCore {
     const tabbarHeight =
       (screenHeight - windowHeight - statusBarHeight) * pixelRatio;
 
-    this.showCityChangeTopInfo = true;
-    this.showCityChangeTipsInfo = true;
-
     this.state = {
       ...this.state,
       ...{
@@ -182,9 +179,6 @@ class Index extends CustomPageCore {
   doOtherWhenComponentCommonShow() { }
 
   afterReloadDataWhenAutoAndRepeatedShow() {
-    if (this.showCityChangeTopInfo) {
-      this.showSuccess(this.showCityChangeTopInfoCustomText);
-    }
   }
 
   getApiData = props => {
