@@ -7,7 +7,6 @@ import {
   getCity,
   getInviter,
   getSessionId,
-  getLocationMode,
 } from "./tools";
 import Tips from "./tips";
 import { appId } from "../customConfig/config";
@@ -37,7 +36,6 @@ export class Request {
         city: getCity(),
         inviter: getInviter(),
         sessionId: getSessionId(),
-        locationMode: getLocationMode(),
       },
       fail: res => {
         Tips.loaded();

@@ -4,16 +4,11 @@ import {
   pretreatmentRemoteSingleData,
   getMetaDataCache,
   setMetaDataCache,
-  setLocation,
   getRunTime,
   setRunTime,
-  getLocationMode,
-  setLocationMode
 } from "../utils/tools";
 import {
   checkLoginResult,
-  authLocationCollection,
-  locationModeCollection
 } from "../utils/customConfig";
 
 import {
@@ -33,10 +28,6 @@ export default {
     globalLoadSuccess: false,
     globalQuery: { path: "", query: {}, scene: 0 },
     needReloadHome: false,
-    locationResult: {
-      locationGet: false,
-      locationAuth: authLocationCollection.unknown
-    },
     switchTabParams: null,
     needReloadShoppingCart: false,
     notice: {},
@@ -213,12 +204,6 @@ export default {
     *setShareResourceList({ payload }, { put }) {
       yield put({
         type: "changeShareResourceList",
-        payload
-      });
-    },
-    *setLocationResult({ payload }, { put }) {
-      yield put({
-        type: "changeLocationResult",
         payload
       });
     },
@@ -423,12 +408,6 @@ export default {
       return {
         ...state,
         shareResourceList: payload
-      };
-    },
-    changeLocationResult(state, { payload }) {
-      return {
-        ...state,
-        locationResult: payload
       };
     },
     changeNeedBalancePayment(state, { payload }) {

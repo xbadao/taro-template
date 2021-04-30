@@ -22,7 +22,6 @@ import QQMapWX from "../libs/qqmap-wx-jssdk.min";
 import {
   getConfigData,
   checkDevelopment,
-  locationModeCollection,
   logLevel
 } from "./customConfig";
 
@@ -30,7 +29,6 @@ const storageKeyCollection = {
   token: "token",
   currentUrl: "currentUrl",
   openId: "openId",
-  location: "location",
   city: "city",
   map: "map",
   inviter: "inviter",
@@ -41,14 +39,10 @@ const storageKeyCollection = {
   metaData: "metaData",
   remoteCheck: "remoteCheck",
   needSyncInfo: "needSyncInfo",
-  locationMode: "locationMode",
-  lastLocation: "lastLocation",
   runTime: "runTime",
   codeTime: "codeTime",
   needAdPopUp: "needAdPopUp"
 };
-
-const lastLocationVersion = 20200227;
 
 export function defaultCoreState() {
   return {
@@ -909,52 +903,6 @@ export function removeCity() {
   removeFromStorage(key);
 }
 
-/**
- * 获取LocationMode
- *
- * @export
- * @param {*} fn
- * @returns
- */
-export function getLocationMode() {
-  const key = storageKeyCollection.locationMode;
-
-  const s = getStringFromLocalStorage(key);
-
-  const v = parseInt(s, 10);
-
-  return v === locationModeCollection.auto ||
-    v === locationModeCollection.custom
-    ? v
-    : locationModeCollection.unknown;
-}
-
-/**
- * 设置LocationMode
- *
- * @export
- * @param {*} fn
- * @returns
- */
-export function setLocationMode(locationMode) {
-  const key = storageKeyCollection.locationMode;
-
-  if (locationMode === locationModeCollection.custom) {
-    removeMap();
-  }
-
-  const v = parseInt(
-    locationMode || 0 ? locationMode : locationModeCollection.unknown,
-    10
-  );
-
-  saveStringToLocalStorage(
-    key,
-    v === locationModeCollection.auto || v === locationModeCollection.custom
-      ? v
-      : locationModeCollection.unknown
-  );
-}
 
 /**
  * 获取map
@@ -970,25 +918,6 @@ export function getMap() {
 
   if ((data || null) == null) {
     return null;
-  }
-
-  const locationMode = getLocationMode();
-
-  if (locationMode === locationModeCollection.auto) {
-    const { dataVersion } = data;
-
-    if ((dataVersion || null) == null) {
-      return null;
-    }
-
-    // 地理位置信息有效期30分钟
-    const now = parseInt(new Date().getTime() / 1000 / 60 / 30, 10);
-
-    if (dataVersion !== now) {
-      return null;
-    }
-
-    return data;
   }
 
   return data;
@@ -1023,75 +952,6 @@ export function removeMap() {
   const key = storageKeyCollection.map;
 
   Taro.removeStorageSync(key);
-}
-
-/**
- * 获取经纬度信息
- *
- * @export
- * @param {*} fn
- * @returns
- */
-export function getLocation() {
-  const key = storageKeyCollection.location;
-
-  const l = getJsonFromLocalStorage(key);
-
-  if ((l || null) == null) {
-    return null;
-  }
-
-  const locationMode = getLocationMode();
-
-  if (locationMode === locationModeCollection.auto) {
-    const { dataVersion } = l;
-
-    if ((dataVersion || null) == null) {
-      return null;
-    }
-
-    // 地理位置信息有效期30分钟
-    const now = parseInt(new Date().getTime() / 1000 / 60 / 30, 10);
-
-    if (dataVersion !== now) {
-      return null;
-    }
-
-    return l;
-  }
-
-  return l;
-}
-
-/**
- * 设置经纬度信息
- *
- * @export
- * @param {*} fn
- * @returns
- */
-export function setLocation(location) {
-  const key = storageKeyCollection.location;
-
-  // 地理位置信息有效期30分钟
-  const nowVersion = parseInt(new Date().getTime() / 1000 / 60 / 30, 10);
-
-  location.dataVersion = nowVersion;
-
-  return saveJsonToLocalStorage(key, location || "");
-}
-
-/**
- * 移除经纬度信息
- *
- * @export
- * @param {*} fn
- * @returns
- */
-export function removeLocation() {
-  const key = storageKeyCollection.location;
-
-  removeFromStorage(key);
 }
 
 /**
@@ -1214,55 +1074,6 @@ export function setNeedSyncInfo(need) {
   const key = storageKeyCollection.needSyncInfo;
 
   saveStringToLocalStorage(key, `${(need || false) == false ? 0 : 1}`);
-}
-
-/**
- * 获取用户最后位置信息
- *
- * @export
- * @param {*} fn
- * @returns
- */
-export function getLastLocation() {
-  const key = storageKeyCollection.lastLocation;
-
-  let data = getJsonFromLocalStorage(key);
-
-  if (data != null) {
-    const { version, location } = data;
-
-    if (toNumber(version || 0) == lastLocationVersion) {
-      if ((location || null) != null) {
-        return location;
-      }
-    }
-  }
-
-  return null;
-}
-
-/**
- * 设置用户最后位置信息
- *
- * @export
- * @param {*} fn
- * @returns
- */
-export function setLastLocation(data) {
-  if ((data || null) == null) {
-    Tips.info("无法存数无效位置数据");
-
-    return;
-  }
-
-  const key = storageKeyCollection.lastLocation;
-
-  const lastLocation = {
-    location: data,
-    version: lastLocationVersion
-  };
-
-  saveJsonToLocalStorage(key, lastLocation || {});
 }
 
 /**

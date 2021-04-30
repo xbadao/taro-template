@@ -5,7 +5,6 @@ import { AtLoadMore, AtActivityIndicator } from "taro-ui";
 import {
   pretreatmentRequestParams,
   isUndefined,
-  getLocationMode,
   toNumber,
   stringIsNullOrWhiteSpace,
   isFunction,
@@ -21,7 +20,6 @@ import ImageBox from "../../customComponents/ImageBox";
 import { modeConfig as variableViewConfig } from "../../customComponents/VariableView/variableViewConfig";
 import {
   pagePathCollection,
-  locationModeCollection,
   checkLoginResult,
   globalShareData,
   shareTransfer
@@ -112,7 +110,6 @@ class Index extends CustomPageCore {
 
     this.showCityChangeTopInfo = true;
     this.showCityChangeTipsInfo = true;
-    this.needReLocationWhenAutoAndRepeatedShow = true;
 
     this.state = {
       ...this.state,
@@ -571,16 +568,11 @@ class Index extends CustomPageCore {
     const globalSystemInfo = getSystemInfo();
     const { navBarHeight, navBarExtendHeight } = globalSystemInfo;
 
-    const locationMode = getLocationMode();
-
-    let cityName =
-      locationMode === locationModeCollection.auto ? "定位中" : "加载中";
     let rankGridData = [];
 
     if ((metaData || null) != null) {
       // rankGridData = metaData.rankList;
       rankGridData = metaData.navList;
-      cityName = metaData.cityName;
     }
 
     // rankGridData = rankGridData.map((item) => {
@@ -604,8 +596,6 @@ class Index extends CustomPageCore {
     return (
       <View style={{ minHeight: `${windowHeight}px` }}>
         <SearchBox
-          cityName={cityName}
-          locationMode={locationMode}
           goToSearch={() => {
             this.goToSearch();
           }}
@@ -741,13 +731,6 @@ class Index extends CustomPageCore {
       currentProduct,
     } = this.state;
 
-    // const locationResult = this.getLocationResult();
-
-    // const showLocationModal =
-    //   loadSuccess && locationResult === authLocationCollection.yes;
-
-    const showLocationModal = loadSuccess;
-
     return (
       <View className="homeMain">
         <VariableView
@@ -757,7 +740,6 @@ class Index extends CustomPageCore {
           }}
           scrollHeight={scrollHeight}
           showAuthorizationUserInfo={showAuthorizationUserInfo}
-          showLocationModal={showLocationModal}
           showReminderCitySelectModal={showReminderCitySelectModal}
           selectCity={() => {
             this.setState({ showReminderCitySelectModal: false }, () => {

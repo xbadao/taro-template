@@ -276,13 +276,6 @@ class VariableView extends CustomComponentBase {
     }
   }
 
-  onPanelClose() {
-    const { afterLocationSelect } = this.props;
-
-    if (isFunction(afterLocationSelect)) {
-      afterLocationSelect();
-    }
-  }
 
   onSelectCity() {
     const { selectCity } = this.props;
@@ -298,59 +291,6 @@ class VariableView extends CustomComponentBase {
     if (isFunction(cancelSelectCity)) {
       cancelSelectCity();
     }
-  }
-
-  renderDoLocationModal() {
-    const { showReminderCitySelectModal } = this.props;
-
-    return (
-      <AtModal
-        isOpened={showReminderCitySelectModal}
-        closeOnClickOverlay={false}
-      >
-        <AtModalContent>
-          <View className="locationSelectBox">
-            <View className="titleBox">
-              当前地点未匹配,是否手动选择您的城市？
-            </View>
-            <View className="at-row">
-              <View className="at-col at-col-6">
-                <View className="at-row">
-                  <View className="at-col at-col--auto" />
-                  <View className="at-col">
-                    <View
-                      className="buttonBox"
-                      onClick={() => {
-                        this.onCancelSelectCity();
-                      }}
-                    >
-                      <View className="button">否</View>
-                    </View>
-                  </View>
-                  <View className="at-col at-col--auto" />
-                </View>
-              </View>
-              <View className="at-col at-col-6">
-                <View className="at-row">
-                  <View className="at-col at-col--auto" />
-                  <View className="at-col">
-                    <View
-                      className="buttonBox"
-                      onClick={() => {
-                        this.onSelectCity();
-                      }}
-                    >
-                      <View className="button">是</View>
-                    </View>
-                  </View>
-                  <View className="at-col at-col--auto" />
-                </View>
-              </View>
-            </View>
-          </View>
-        </AtModalContent>
-      </AtModal>
-    );
   }
 
   render() {
@@ -428,7 +368,6 @@ class VariableView extends CustomComponentBase {
           >
             <View className="containor selector">{this.props.children}</View>
           </ScrollView>
-          {this.renderDoLocationModal()}
         </View>
       );
     }
@@ -438,7 +377,6 @@ class VariableView extends CustomComponentBase {
         <AtMessage />
 
         {this.props.children}
-        {this.renderDoLocationModal()}
       </View>
     );
   }

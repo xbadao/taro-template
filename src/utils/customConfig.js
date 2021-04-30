@@ -69,12 +69,6 @@ export const goodsTypeCollection = {
   lineTicket: 3
 };
 
-export const locationModeCollection = {
-  unknown: 0,
-  auto: 1,
-  custom: 2
-};
-
 export const logLevel = {
   debug: "debug",
   warn: "warn",
@@ -199,12 +193,6 @@ export const hotCakesStyle = {
   lineHeight: "1"
 };
 
-export const authLocationCollection = {
-  unknown: 0,
-  yes: 1,
-  no: 2
-};
-
 export const buyActionCollection = {
   addToCart: 1,
   buy: 2
@@ -244,8 +232,6 @@ export const apiVersion = {
   version: "v1"
   // version: "beta",
 };
-
-export const userLocation = false;
 
 /**
  * 占位函数

@@ -52,9 +52,6 @@ class App extends CustomPageCore {
       navigationBarTextStyle: "black"
     },
     permission: {
-      "scope.userLocation": {
-        desc: "你的位置信息将用于筛选所在地的商品。"
-      }
     },
     tabBar: {
       color: "#353535",

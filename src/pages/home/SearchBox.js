@@ -7,7 +7,6 @@ import NavBar from "../../customComponents/navbar_lxy";
 import ImageBox from "../../customComponents/ImageBox";
 
 import "./SearchBox.scss";
-import { locationModeCollection } from "../../utils/customConfig";
 
 class SearchBox extends CustomComponentBase {
   constructor(props) {
@@ -19,11 +18,7 @@ class SearchBox extends CustomComponentBase {
   }
 
   componentDidMount() {
-    const { cityName: cityInitValue } = this.props;
 
-    this.setState({
-      city: cityInitValue || "定位中",
-    });
   }
 
   componentDidShow() {
@@ -31,14 +26,7 @@ class SearchBox extends CustomComponentBase {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { city: cityPrev } = this.state;
-    const { cityName: cityNext } = nextProps;
 
-    if (cityPrev !== cityNext) {
-      this.setState({
-        city: cityNext || "加载中",
-      });
-    }
   }
 
   searchAction() {
@@ -57,22 +45,9 @@ class SearchBox extends CustomComponentBase {
     }
   }
 
-  locationAction() {
-    const { selectLocation } = this.props;
-
-    if (isFunction(selectLocation)) {
-      selectLocation();
-    }
-  }
 
   render() {
-    const { locationMode, express } = this.props;
-    const { city } = this.state;
-
-    // const locationIcon =
-    //   locationMode === locationModeCollection.auto
-    //     ? "http://file.panduolakeji.com/1928754894.png"
-    //     : "http://file.panduolakeji.com/8c9f07e1cda40d55d6f927572913088.png";
+    const { express } = this.props;
 
     let address = "";
 

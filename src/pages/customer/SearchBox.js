@@ -52,14 +52,6 @@ class SearchBox extends CustomComponentBase {
     }
   }
 
-  locationAction() {
-    const { selectLocation } = this.props;
-
-    if (isFunction(selectLocation)) {
-      selectLocation();
-    }
-  }
-
   render() {
     const { customer } = this.props;
 
