@@ -778,19 +778,6 @@ class Cart extends CustomPageCore {
             prepareGetAuthorizationUserInfo={callback => {
               this.checkSessionId(callback);
             }}
-            afterGetUserInfo={e => {
-              if (signInResult === checkLoginResult.fail) {
-                const {
-                  detail: { iv, encryptedData }
-                } = e;
-
-                this.signInWithUserInfo({ iv, encryptedData }, () => {
-                  this.setNeedReloadShoppingCart(true);
-                });
-              } else {
-                this.syncUserInfo(e);
-              }
-            }}
             afterCheckAuthorizationUserInfoClose={() => {
               this.setState({ showAuthorizationUserInfo: false });
             }}

@@ -746,19 +746,6 @@ class Index extends CustomPageCore {
           onLoadMore={() => {
             this.loadNextPage();
           }}
-          afterGetUserInfo={e => {
-            const {
-              detail: { iv, encryptedData }
-            } = e;
-
-            this.signInWithUserInfo({ iv, encryptedData }, () => {
-              const { currentProduct: currentProductValue } = this.state;
-
-              if (currentProductValue != null) {
-                this.prepareAddToCart(currentProductValue);
-              }
-            });
-          }}
           afterCheckAuthorizationUserInfoClose={() => {
             this.setState({ showAuthorizationUserInfo: false });
           }}

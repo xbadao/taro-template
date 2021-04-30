@@ -9,6 +9,7 @@ import {
 
 import { isEqual, isFunction, recordLog } from "../../utils/tools";
 import CustomComponentBase from "../CustomComponentBase";
+import CheckAuthorizationUserInfo from "../CheckAuthorizationUserInfo";
 import ImageBox from "../ImageBox";
 
 import { modeConfig } from "./variableViewConfig";
@@ -21,7 +22,6 @@ class VariableView extends CustomComponentBase {
   //如果babel设置为es6的转码方式，会报错，因为定义静态属性不属于es6，而在es7的草案中。ES6的class中只有静态方法，没有静态属性。
   static defaultProps = {
     mode: modeConfig.view,
-    showReminderCitySelectModal: false,
   };
 
   refreshBoxAnimation = null;
@@ -106,12 +106,10 @@ class VariableView extends CustomComponentBase {
       {
         showAuthorizationUserInfo: this.props.showAuthorizationUserInfo,
         scrollHeight: this.props.scrollHeight,
-        showReminderCitySelectModal: this.props.showReminderCitySelectModal,
       },
       {
         showAuthorizationUserInfo: nextProps.showAuthorizationUserInfo,
         scrollHeight: nextProps.scrollHeight,
-        showReminderCitySelectModal: nextProps.showReminderCitySelectModal,
       }
     );
 
@@ -277,25 +275,13 @@ class VariableView extends CustomComponentBase {
   }
 
 
-  onSelectCity() {
-    const { selectCity } = this.props;
-
-    if (isFunction(selectCity)) {
-      selectCity();
-    }
-  }
-
-  onCancelSelectCity() {
-    const { cancelSelectCity } = this.props;
-
-    if (isFunction(cancelSelectCity)) {
-      cancelSelectCity();
-    }
-  }
-
   render() {
     const {
+      showAuthorizationUserInfo,
       scrollHeight,
+      prepareGetAuthorizationUserInfo,
+      afterGetUserInfo,
+      afterCheckAuthorizationUserInfoClose,
     } = this.props;
 
     const {
@@ -307,6 +293,11 @@ class VariableView extends CustomComponentBase {
       needRefresh,
     } = this.state;
 
+    const showAuthorizationUserInfoValue = showAuthorizationUserInfo || false;
+
+    recordLog(
+      `VariableView render showAuthorizationUserInfoValue ${showAuthorizationUserInfoValue}`
+    );
 
     if (renderMode === modeConfig.scrollView) {
       return (
@@ -368,6 +359,15 @@ class VariableView extends CustomComponentBase {
           >
             <View className="containor selector">{this.props.children}</View>
           </ScrollView>
+          {showAuthorizationUserInfoValue ? (
+            <CheckAuthorizationUserInfo
+              onPrepareGetAuthorizationUserInfo={
+                prepareGetAuthorizationUserInfo
+              }
+              afterGetUserInfo={afterGetUserInfo}
+              afterClose={afterCheckAuthorizationUserInfoClose}
+            />
+          ) : null}
         </View>
       );
     }
@@ -377,6 +377,13 @@ class VariableView extends CustomComponentBase {
         <AtMessage />
 
         {this.props.children}
+        {showAuthorizationUserInfoValue ? (
+          <CheckAuthorizationUserInfo
+            onPrepareGetAuthorizationUserInfo={prepareGetAuthorizationUserInfo}
+            afterGetUserInfo={afterGetUserInfo}
+            afterClose={afterCheckAuthorizationUserInfoClose}
+          />
+        ) : null}
       </View>
     );
   }
