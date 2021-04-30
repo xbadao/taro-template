@@ -9,7 +9,7 @@ import {
 } from "taro-ui";
 
 // import CustomPageCore from "../../customComponents/CustomPage/CustomPageCore";
-import { formatMoney, getLocationMode, getSystemInfo } from "../../utils/tools";
+import { formatMoney, getSystemInfo } from "../../utils/tools";
 import Tips from "../../utils/tips";
 import CustomPageCore from "../../customComponents/CustomPage/CustomPageCore";
 import VariableView from "../../customComponents/VariableView";
@@ -20,7 +20,6 @@ import { modeConfig as variableViewConfig } from "../../customComponents/Variabl
 import {
   pagePathCollection,
   checkLoginResult,
-  locationModeCollection
 } from "../../utils/customConfig";
 
 import ItemBox from "./ItemBox";
@@ -145,11 +144,6 @@ class Cart extends CustomPageCore {
     const info = this.getSystemInfoSync();
 
     const { windowHeight } = info;
-
-    this.showCityChangeTipsInfo = true;
-    this.showCityChangeTipsInfoAutoText = "即将刷新数据，请稍后";
-    this.showCityChangeTipsInfoCustomText = "即将刷新数据，请稍后";
-    this.needReLocationWhenAutoAndRepeatedShow = true;
 
     this.state = {
       ...this.state,
@@ -619,54 +613,6 @@ class Cart extends CustomPageCore {
                     </View>
                   </View>
                 </View>
-                {/* <View className="divideBox" />
-                <View key className="actionContainor firstFloat">
-                  <View className="titleBox">
-                    <View className="left">门店信息</View>
-                    <View className="right">
-                      <View className="all">
-                        <View
-                          className="subTitle standing"
-
-                        >
-                          <View className="at-row at-row__align--center">
-                            <View className="at-col at-col at-col-1 at-col--auto">
-                              查看门店地址
-                            </View>
-                            <View className="at-col at-col at-col-1 at-col--auto">
-                              <View className="rightTo">
-                                <ImageBox
-                                  className="rightIcon"
-                                  src={customer.shopfrontImage == "" ? "http://file.panduolakeji.com/650254129.png" : customer.shopfrontImage}
-                                />
-                              </View>
-                            </View>
-                          </View>
-                        </View>
-                      </View>
-                    </View>
-                  </View>
-                  <View
-                    className="actionBoxContainor"
-                    onClick={() => {
-                      this.onLookTheMap(
-                        customer.latitude,
-                        customer.longitude
-                      );
-                    }}
-                  >
-                    <SearchBox
-                      cityName={cityName}
-                      locationMode={locationMode}
-                      customer={customer}
-                      selectLocation={() => {
-                        this.doLocation(d => {
-                          this.afterDoLocation(d);
-                        });
-                      }}
-                    />
-                  </View>
-                </View > */}
 
                 <View className="divideBox" />
 

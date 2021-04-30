@@ -10,12 +10,10 @@ import {
   getToken,
   getOpenId,
   setOpenId,
-  getLocation,
   getCity,
   setSessionId,
   getSessionId,
   setNeedSyncInfo,
-  getLocationMode,
   getSessionIdRefreshing,
   sleep,
   setSessionIdRefreshing,
@@ -30,9 +28,6 @@ import Tips from "../../../utils/tips";
 import CustomBase from "../../CustomBase";
 import {
   checkLoginResult,
-  authLocationCollection,
-  locationModeCollection,
-  userLocation
 } from "../../../utils/customConfig";
 
 class Index extends CustomBase {
@@ -100,19 +95,6 @@ class Index extends CustomBase {
 
   // 编译
 
-  /**
-   * 当城市信息发生变化时重新加载页面
-   */
-  callWhenCityChange(
-    // eslint-disable-next-line no-unused-vars
-    cityPre,
-    // eslint-disable-next-line no-unused-vars
-    city,
-    // eslint-disable-next-line no-unused-vars
-    locationRemote,
-    // eslint-disable-next-line no-unused-vars
-    areaOpen
-  ) { }
 
   // eslint-disable-next-line no-unused-vars
   getStateNeedSetWillReceive(_nextProps) {
@@ -451,42 +433,6 @@ class Index extends CustomBase {
     setCurrentUrl(`${path}${p === "" ? "" : `?${p}`}`);
   }
 
-  signInWithUserInfo(userInfo, callback) {
-    this.setState({ showAuthorizationUserInfo: false });
-
-    const location = getLocation();
-
-    this.signInWithUserInfoCore(location, userInfo, callback);
-  }
-
-  signInWithUserInfoCore(location, userInfo, callback) {
-    const { dispatch } = this.props;
-
-    const locationMode = getLocationMode();
-
-    if ((userLocation || false) && locationMode == locationModeCollection.auto) {
-      if ((location || null) == null) {
-        const that = this;
-
-        this.reLocation(
-          () => {
-            that.signIn(userInfo, callback);
-          },
-          false,
-          false,
-          false,
-          dispatch,
-          () => {
-            that.signIn(userInfo, callback);
-          }
-        );
-      } else {
-        this.signIn(userInfo, callback);
-      }
-    } else {
-      this.signIn(userInfo, callback);
-    }
-  }
 
   refreshSessionId(callback) {
     const sessionIdRefreshing = getSessionIdRefreshing();
@@ -603,81 +549,19 @@ class Index extends CustomBase {
   }
 
   signIn(params, callback) {
-    const { dispatch } = this.props;
 
     const that = this;
 
-    const locationMode = getLocationMode();
+    const checkSignInProcessing = that.getCheckSignInProcessing();
 
-    if ((userLocation || false) && locationMode == locationModeCollection.auto) {
-      recordLog("signIn locationModeCollection.auto");
-
-      this.reLocation(
-        (location, map) => {
-          const { latitude, longitude } = location || {
-            latitude: 34.7533581487,
-            longitude: 113.6313915479,
-          };
-
-          const {
-            ad_info: { adcode: city },
-          } = map;
-
-          params.latitude = latitude || "";
-          params.longitude = longitude || "";
-          params.city = city;
-
-          const checkSignInProcessing = that.getCheckSignInProcessing();
-
-          if (!checkSignInProcessing) {
-            that.setCheckSignInProcessing(true, () => {
-              that.signInCore(params, callback);
-            });
-          }
-        },
-        false,
-        false,
-        false,
-        dispatch,
-        () => {
-          const checkSignInProcessing = that.getCheckSignInProcessing();
-
-          if (!checkSignInProcessing) {
-            that.setCheckSignInProcessing(true, () => {
-              that.signInCore(params, callback);
-            });
-          }
-        }
-      );
-    } else {
-      recordLog("signIn locationModeCollection.auto - else");
-
-      if (userLocation || false) {
-        that.signInWhenCheckSignInProcessing(
-          params,
-          (o, p) => {
-            recordLog(`signInWhenCheckSignInProcessing callback exec`);
-            recordLog(o);
-            recordLog(p);
-
-            o.setCheckSignInProcessing(true, () => {
-              o.signInCore(p, callback);
-            });
-          },
-          0
-        );
-      } else {
-        const checkSignInProcessing = that.getCheckSignInProcessing();
-
-        if (!checkSignInProcessing) {
-          that.setCheckSignInProcessing(true, () => {
-            that.signInCore(params, callback);
-          });
-        }
-      }
-
-
+    if (!checkSignInProcessing) {
+      that.setCheckSignInProcessing(true, () => {
+        that.signInCore(params, callback);
+      });
     }
+
+
+
   }
 
   signInWhenCheckSignInProcessing(params, callback, timeTotal = 0) {
@@ -735,7 +619,6 @@ class Index extends CustomBase {
           signInResult,
           sessionEffective,
           needSyncInfo,
-          location: locationRemote,
           areaOpen,
         } = metaData;
 
@@ -764,14 +647,6 @@ class Index extends CustomBase {
               }
             });
 
-            if (toNumber(cityPre) !== toNumber(city)) {
-              this.callWhenCityChange(
-                `${cityPre || ""}`,
-                `${city || ""}`,
-                locationRemote,
-                areaOpen
-              );
-            }
             recordLog(`signInCore callback exec`);
             recordLog(callback);
             if (isFunction(callback)) {
@@ -794,59 +669,6 @@ class Index extends CustomBase {
 
   doWhenSignInFail() {
     // Tips.info("请关闭小程序后重新打开");
-  }
-
-  checkCity(location, map, callback, force = false) {
-    if ((map || null) == null) {
-      this.showError("未获取到城市信息", 800);
-
-      return;
-    }
-
-    const { dispatch } = this.props;
-
-    const {
-      ad_info: { adcode: cityCodeValue },
-    } = map;
-
-    const cityCode = `${cityCodeValue || ""}`;
-
-    if (!force) {
-      if (this.currentMapCityCode === cityCode) {
-        if (isFunction(callback)) {
-          const city = getCity();
-
-          callback(false, city, city, location, city, 1);
-        }
-
-        return;
-      }
-    }
-
-    this.currentMapCityCode = cityCode;
-
-    dispatch({
-      type: "entrance/checkCity",
-      payload: { city: cityCode },
-    }).then(() => {
-      const {
-        entrance: { data },
-      } = this.props;
-
-      const { dataSuccess, data: metaData } = data;
-
-      if (dataSuccess) {
-        if (isFunction(callback)) {
-          const { city, location: locationRemote, areaOpen } = metaData;
-
-          const cityPre = getCity();
-
-          const cityChanged = toNumber(cityPre) !== toNumber(city);
-
-          callback(cityChanged, city, cityPre, locationRemote, areaOpen);
-        }
-      }
-    });
   }
 
   checkSessionId(callback) {
@@ -920,57 +742,20 @@ class Index extends CustomBase {
 
   // 检测是否需要重新请求凭证
   checkLogin(callback) {
-    const { dispatch } = this.props;
-
     const signInResult = this.getSignInResult();
-    const locationMode = getLocationMode();
 
     if (signInResult === checkLoginResult.unknown) {
-      recordLog("checkLoginResult.unknown");
-      if ((userLocation || false) && locationMode === locationModeCollection.auto) {
-        recordLog("locationModeCollection.auto - checkLoginResult.auto");
 
-        this.reLocation(
-          () => {
-            this.signIn({}, callback);
-          },
-          false,
-          false,
-          false,
-          dispatch,
-          () => {
-            this.signIn({}, callback);
-          }
-        );
-      } else {
-        recordLog("locationModeCollection.auto - else");
-        recordLog(callback);
+      recordLog(callback);
 
-        this.signIn({}, callback);
-      }
+      this.signIn({}, callback);
+
     } else {
-      if ((userLocation || false) && locationMode === locationModeCollection.auto) {
-        recordLog("checkLoginResult.auto");
-
-        this.reLocation(
-          () => {
-            this.checkLoginAfterLocation(callback);
-          },
-          false,
-          false,
-          false,
-          dispatch,
-          () => {
-            this.checkLoginAfterLocation(callback);
-          }
-        );
-      } else {
-        this.checkLoginAfterLocation(callback);
-      }
+      this.checkLoginAfter(callback);
     }
   }
 
-  checkLoginAfterLocation(callback) {
+  checkLoginAfter(callback) {
     const checkLoginProcessing = this.getCheckLoginProcessing();
 
     if (checkLoginProcessing) {
@@ -979,14 +764,12 @@ class Index extends CustomBase {
 
     const tokenCurrent = getToken();
     const openIdCurrent = getOpenId();
-    const location = getLocation();
     const city = getCity();
 
     if (
       (tokenCurrent || "") !== "" &&
       (openIdCurrent || "") !== "" &&
-      (city || "") !== "" &&
-      (location || null) !== null
+      (city || "") !== ""
     ) {
       const signInResult = this.getSignInResult();
 
@@ -1092,44 +875,6 @@ class Index extends CustomBase {
         callback();
       }
     });
-  }
-
-  getLocationResult() {
-    const {
-      global: { locationResult },
-    } = this.props;
-
-    return locationResult;
-  }
-
-  setLocationResult(o, callback, dispatchFunc = null) {
-    if (dispatchFunc == null) {
-      const { dispatch } = this.props;
-
-      dispatch({
-        type: "global/setLocationResult",
-        payload: o || {
-          locationGet: false,
-          locationAuth: authLocationCollection.unknown,
-        },
-      }).then(() => {
-        if (isFunction(callback)) {
-          callback();
-        }
-      });
-    } else {
-      dispatchFunc({
-        type: "global/setLocationResult",
-        payload: o || {
-          locationGet: false,
-          locationAuth: authLocationCollection.unknown,
-        },
-      }).then(() => {
-        if (isFunction(callback)) {
-          callback();
-        }
-      });
-    }
   }
 }
 

@@ -65,104 +65,11 @@ export default {
   },
 
   effects: {
-    *get({ payload }, { call, put }) {
-      const { force } = payload || { force: false };
-      let result = {};
-      let fromRemote = force || false;
-      const date = new Date().getTime();
-      const runTime = getRunTime();
-      if (runTime) {
-        const different = (date - runTime) / 1000;
-        if (different < 5) {
-          return;
-        }
-      } else {
-        setRunTime(date);
-      }
-
-      if (!force) {
-        result = getMetaDataCache();
-
-        if ((result || null) == null) {
-          fromRemote = true;
-          result = {};
-        }
-      }
-
-      if (fromRemote) {
-        const response = yield call(getData, payload);
-
-        const data = pretreatmentRemoteSingleData(response);
-
-        const { dataSuccess, data: metaData } = data;
-
-        if (dataSuccess) {
-          const {
-            notice,
-            rankList,
-            cityList,
-            replenishmentReasonTypeList,
-            replenishmentTypeList,
-            refundReasonTypeList,
-            shareResourceList,
-          } = metaData;
-
-          result = {
-            notice,
-            rankList,
-            cityList,
-            refundReasonTypeList,
-            replenishmentReasonTypeList,
-            replenishmentTypeList,
-            shareResourceList,
-            globalLoadSuccess: true
-          };
-
-          setMetaDataCache(result);
-        }
-      }
-
-      yield put({
-        type: "changeMetaData",
-        payload: result
-      });
-    },
-
     *test({ payload }, { call, put }) {
       const response = yield call(testData, payload);
       yield put({
         type: "handleCommonData",
         payload: response
-      });
-    },
-    *setGlobalQuery({ payload }, { put }) {
-      yield put({
-        type: "changeGlobalQuery",
-        payload
-      });
-    },
-    *setNeedSyncUserInfo({ payload }, { put }) {
-      yield put({
-        type: "changeNeedSyncUserInfo",
-        payload
-      });
-    },
-    *setIntegral({ payload }, { put }) {
-      yield put({
-        type: "changeIntegral",
-        payload
-      });
-    },
-    *setNeedReloadHome({ payload }, { put }) {
-      yield put({
-        type: "changeNeedReloadHome",
-        payload
-      });
-    },
-    *setLoadSuccess({ payload }, { put }) {
-      yield put({
-        type: "changeLoadSuccess",
-        payload
       });
     },
     *setSwitchTabParams({ payload }, { put }) {
